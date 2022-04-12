@@ -74,6 +74,22 @@ Nonce response example
 ```
 <br>
 
+### Signature of Nonce
+The nonce value need to be signed with DID owner's private key by using the Libsodium(Lazy sodium for Java) and encoded by base64 encoding.
+
+Example Java code for signature of nonce
+```java
+String signatureOfNonce;
+String nonce = "17bf271c-4373-43b2-9eec-332505a262cd"
+byte[] byteNonce = nonce.getBytes();
+byte[] signedNonce = new byte[64 + byteNonce.length];
+
+lazySodium.cryptoSign(signedNonce, byteNonce, byteNonce.length, DidInfo.ed25519PrivateKey);
+
+signatureOfNonce = Base64.getEncoder().encodeToString(signedNonce);
+```
+<br>
+
 ### Create Operation
 This operation allows the DID owner to register the SNPLab DID and the DID Document.<br>
 
